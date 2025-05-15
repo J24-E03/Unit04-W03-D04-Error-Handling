@@ -64,13 +64,10 @@ public class MovieController {
     @PostMapping("/create")
     public String createNewMovie(@Valid @ModelAttribute Movie movie, BindingResult bindingResult, @RequestParam List<Long> genreIds,Model model){
 
-        if(bindingResult.hasErrors()){
 
-            model.addAttribute("movie", new Movie());
-            model.addAttribute("directors",directorRepository.findAll());
-            model.addAttribute("genres",genreRepository.findAll());
-            model.addAttribute("error","Error in your form fields, please fix it");
-
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("directors", directorRepository.findAll());
+            model.addAttribute("genres", genreRepository.findAll());
             return "movies/movie-form";
         }
 

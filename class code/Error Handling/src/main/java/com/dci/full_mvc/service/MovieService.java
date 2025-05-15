@@ -1,5 +1,6 @@
 package com.dci.full_mvc.service;
 
+import com.dci.full_mvc.exceptions.ResourceNotFound;
 import com.dci.full_mvc.model.Director;
 import com.dci.full_mvc.model.Genre;
 import com.dci.full_mvc.model.Movie;
@@ -46,7 +47,7 @@ public class MovieService {
 
     public Movie findById(Long id){
         Movie foundMovie = movieRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("Movie not found"));
+                .orElseThrow(()->new ResourceNotFound("Movie not found"));
 
         return foundMovie;
     }
@@ -56,7 +57,7 @@ public class MovieService {
         System.out.println(movie);
         //        validation for the director
         Director director = directorRepository.findById(movie.getDirector().getDirectorId())
-                .orElseThrow(()->new RuntimeException("Director with Id not found"));
+                .orElseThrow(()->new ResourceNotFound("Director with Id not found"));
 
         movie.setDirector(director);
 
