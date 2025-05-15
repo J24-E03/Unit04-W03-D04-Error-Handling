@@ -73,11 +73,11 @@ public class BookService {
                 .orElseThrow(() -> new RuntimeException("Book not found"));
     }
 
-    public List<String> findAllGenres() {
-        return bookRepository.findAllGenres();
-    }
+//    public List<String> findAllGenres() {
+//        return bookRepository.findAllGenres();
+//    }
 
-    public List<Book> findBooksByGenres(List<String> genre) {
-        return bookRepository.findBooksByGenres(genre);
-    }
+//    public List<Book> findBooksByGenres(List<String> genre) {
+//        return bookRepository.findBooksByGenres(genre);
+//    }
 }
