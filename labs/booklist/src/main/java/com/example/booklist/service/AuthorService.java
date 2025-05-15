@@ -1,5 +1,6 @@
 package com.example.booklist.service;
 
+import com.example.booklist.exception.ResourceNotFound;
 import com.example.booklist.model.Author;
 import com.example.booklist.model.Book;
 import com.example.booklist.repository.AuthorRepository;
@@ -56,7 +57,7 @@ public class AuthorService {
 
     public Author findAuthorById(Long id) {
         return authorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Author not found"));
+                .orElseThrow(() -> new ResourceNotFound("Author not found"));
     }
 
     public void deleteAuthorById(Long id) {
