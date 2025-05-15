@@ -32,6 +32,8 @@ public class MovieService {
         List<Genre> genres = genreRepository.findAllById(genreIds);
         movie.setGenres(genres);
 
+
+
         Movie createdMovie = movieRepository.save(movie);
 
         return createdMovie;

@@ -6,6 +6,17 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//@NotNull          // Field must not be null
+//@NotEmpty         // Field must not be null or empty
+//@NotBlank         // String must not be null or whitespace
+//@Size(min=, max=) // Size boundaries for strings, collections
+//@Min(value=)      // Minimum value for numbers
+//@Max(value=)      // Maximum value for numbers
+//@Email            // Must be a well-formed email address
+//@Pattern(regexp=) // Must match the regular expression pattern
+
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
