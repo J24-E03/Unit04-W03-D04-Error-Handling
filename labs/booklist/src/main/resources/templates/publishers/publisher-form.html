@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Author</title>
+    <title>Publisher</title>
     <style th:replace="~{fragments/fragment :: base-style}"></style>
     <link rel="stylesheet" href="/styles.css">
 
@@ -52,30 +52,15 @@
 <div th:replace="~{fragments/fragment :: navbar}"></div>
 <div id="form-page-container">
     <div class="form-container">
-        <form th:object="${author}" th:action="${author.id == null} ? @{/authors/create} : @{/authors/update/{id}(id=${author.id})}"
+        <form th:object="${publisher}" th:action="${publisher.id == null} ? @{/publishers/create} : @{/publishers/update/{id}(id=${publisher.id})}"
               method="post">
-            <h1 th:text="${author.id == null} ? 'Add a New Author' : 'Update Author'"></h1>
+            <h1 th:text="${publisher.id == null} ? 'Add a New Publisher' : 'Update Publisher'"></h1>
             <div>
                 <label for="name">Name: </label>
                 <input type="text" id="name" th:field="*{name}" min="2" maxlength="100" required>
                 <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
             </div>
-            <div>
-                <label for="bio">Bio: </label>
-                <input type="text" id="bio" th:field="*{bio}" min="5" maxlength="255" required>
-                <p class="error" th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}"></p>
-            </div>
-            <div>
-                <label for="books">Books:</label>
-                <select id="books" name="bookIds" multiple>
-                    <option th:each="book : ${books}"
-                            th:value="${book.id}"
-                            th:text="${book.title}"
-                            th:selected="${author.books.contains(book)}">
-                    </option>
-                </select>
-            </div>
-            <button type="submit" th:text="${author.id == null ? 'Add Author' : 'Update Author'}"></button>
+            <button type="submit" th:text="${publisher.id == null ? 'Add Publisher' : 'Update Publisher'}"></button>
         </form>
     </div>
 </div>
@@ -84,6 +69,5 @@
     <div th:replace="~{fragments/fragment :: footer}"></div>
 </footer>
 
-<script src="/js/book-form.js"></script>
 </body>
 </html>

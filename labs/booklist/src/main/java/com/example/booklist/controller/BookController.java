@@ -41,7 +41,7 @@ public class BookController {
     }
 
     @PostMapping("/create")
-    public String createBook(@Valid @ModelAttribute Book book, BindingResult bindingResult, @RequestParam List<Long> authorIds, Model model) {
+    public String createBook(@Valid @ModelAttribute Book book, BindingResult bindingResult, @RequestParam List<Long> authorIds, @RequestParam List<Long> publisherIds, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("book", book);
             model.addAttribute("index", -1);
@@ -50,7 +50,7 @@ public class BookController {
             model.addAttribute("publishers", publisherService.findAll());
             return "books/book-form";
         }
-        bookService.addNewBook(book, authorIds);
+        bookService.addNewBook(book, authorIds, publisherIds);
         return "redirect:/books";
     }
 
@@ -65,7 +65,7 @@ public class BookController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateBook(@Valid @ModelAttribute Book book, BindingResult bindingResult, @RequestParam List<Long> authorIds, Model model) {
+    public String updateBook(@Valid @ModelAttribute Book book, BindingResult bindingResult, @RequestParam List<Long> authorIds, @RequestParam List<Long> publisherIds, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("book", book);
             model.addAttribute("authors", authorService.findAllAuthors());
@@ -73,7 +73,7 @@ public class BookController {
             model.addAttribute("publishers", publisherService.findAll());
             return "books/book-form";
         }
-      bookService.updateBook(book,authorIds);
+      bookService.updateBook(book,authorIds,publisherIds);
         return "redirect:/books";
     }
 

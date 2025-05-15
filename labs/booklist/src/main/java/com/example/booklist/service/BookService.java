@@ -3,7 +3,9 @@ package com.example.booklist.service;
 import com.example.booklist.exception.ResourceNotFound;
 import com.example.booklist.model.Author;
 import com.example.booklist.model.Book;
+import com.example.booklist.model.Publisher;
 import com.example.booklist.repository.BookRepository;
+import com.example.booklist.repository.PublisherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.List;
 public class BookService {
     private final BookRepository bookRepository;
     private final AuthorService authorService;
+    private final PublisherRepository publisherRepository;
 
     public List<Book> findAllBooksByIds(List<Long> ids) {
         return bookRepository.findAllById(ids);
@@ -37,7 +40,7 @@ public class BookService {
         bookRepository.saveAll(books);
     }
 
-    public void updateBook(Book book, List<Long> authorIds) {
+    public void updateBook(Book book, List<Long> authorIds, List<Long> publisherIds) {
         List<Author> authors = bookRepository.findById(book.getId()).get().getAuthors();
         authors.forEach(author -> {
             author.getBooks().remove(book);
@@ -49,10 +52,24 @@ public class BookService {
             book.getAuthors().add(author);
         });
         authorService.saveAllAuthors(newAuthors);
+
+
+        List<Publisher> publishers = bookRepository.findById(book.getId()).get().getPublishers();
+        publishers.forEach(publicher -> {
+            publicher.getBooks().remove(book);
+        });
+        book.getPublishers().clear();
+        List<Publisher> newPublishers = publisherRepository.findAllById(publisherIds);
+        newPublishers.forEach(publisher -> {
+            publisher.getBooks().add(book);
+            book.getPublishers().add(publisher);
+        });
+        publisherRepository.saveAll(newPublishers);
+
         bookRepository.save(book);
     }
 
-    public void addNewBook(Book book, List<Long> authorIds) {
+    public void addNewBook(Book book, List<Long> authorIds, List<Long> publisherIds) {
         bookRepository.save(book);
         List<Author> authors = authorService.findAllAuthorsByBookId(authorIds);
         authors.forEach(author -> {
@@ -62,6 +79,14 @@ public class BookService {
         authorService.saveAllAuthors(authors);
         book.setAuthors(authors);
 
+        List<Publisher> publishers = publisherRepository.findAllById(publisherIds);
+        publishers.forEach(publisher -> {
+            publisher.getBooks().add(book);
+            book.getPublishers().add(publisher);
+        });
+        publisherRepository.saveAll(publishers);
+        book.setAuthors(authors);
+        book.setPublishers(publishers);
         bookRepository.save(book);
     }
 
