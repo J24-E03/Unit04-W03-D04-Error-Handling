@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -53,8 +54,26 @@ public class MovieController {
         return "movies/movie-form";
     }
 
+    /*
+    1. Add validation to your model
+    2. Add the @Valid on the posting to the model coming in to validate that it passes the model validation
+    3. Add the BindingResult right after the model to capture the errors
+    4. Check if there are errors with bindingResult.hasErrors() and if there are render the same page with the same attributes
+    * */
+
     @PostMapping("/create")
-    public String createNewMovie(@Valid @ModelAttribute Movie movie, @RequestParam List<Long> genreIds){
+    public String createNewMovie(@Valid @ModelAttribute Movie movie, BindingResult bindingResult, @RequestParam List<Long> genreIds,Model model){
+
+        if(bindingResult.hasErrors()){
+
+            model.addAttribute("movie", new Movie());
+            model.addAttribute("directors",directorRepository.findAll());
+            model.addAttribute("genres",genreRepository.findAll());
+            model.addAttribute("error","Error in your form fields, please fix it");
+
+            return "movies/movie-form";
+        }
+
         Movie createdMovie = movieService.createMovie(movie,genreIds);
         return "redirect:/movies/" + createdMovie.getId();
     }
