@@ -39,7 +39,10 @@ public class FullMvcApplication implements CommandLineRunner {
 //		movieRepository.save(hasanMovie);
 
 
-		System.out.println(movieRepository.findAll());
+//		System.out.println(movieRepository.findAll());
+
+		System.out.println(LocalDate.now().getYear());
 	}
+
 
 }

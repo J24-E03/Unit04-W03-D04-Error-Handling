@@ -1,8 +1,10 @@
 package com.dci.full_mvc.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +30,23 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Title for movie cannot be blank")
+    @Size(min=5, max = 100, message = "Title must be between 5 and 100 characters")
     private String title;
+
+
+    @Min(value=20, message = "Release Year must be after year 20")
+    @Max(value=2050,message = "Release year must be before 2050")
     private int releaseYear;
+
+    @Positive(message = "Duration must be postive number")
+    @Max(value=1000, message = "duration must be below 1000 minutes")
     private int duration;
+
+    @NotBlank(message = "Language is Required")
     private String language;
+    
     private boolean wonOscars;
 
     @ManyToOne

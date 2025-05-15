@@ -7,6 +7,7 @@ import com.dci.full_mvc.repository.DirectorRepository;
 import com.dci.full_mvc.repository.GenreRepository;
 import com.dci.full_mvc.repository.MovieRepository;
 import com.dci.full_mvc.service.MovieService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,7 +54,7 @@ public class MovieController {
     }
 
     @PostMapping("/create")
-    public String createNewMovie(@ModelAttribute Movie movie, @RequestParam List<Long> genreIds){
+    public String createNewMovie(@Valid @ModelAttribute Movie movie, @RequestParam List<Long> genreIds){
         Movie createdMovie = movieService.createMovie(movie,genreIds);
         return "redirect:/movies/" + createdMovie.getId();
     }
